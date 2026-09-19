@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My First Project</title>
+  <meta name="description" content="A short description of my project." />
+
+  <style>
+    /* ---------- 1. Design tokens: change these to restyle everything ---------- */
+    :root {
+      --bg: #eef2f6;
+      --surface: #ffffff;
+      --ink: #14213d;
+      --muted: #55627a;
+      --accent: #2f6fed;
+      --line: #d5dce6;
+      --radius: 10px;
+      --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --font-head: "Iowan Old Style", Georgia, "Times New Roman", serif;
+    }
+    [data-theme="dark"] {
+      --bg: #0f1624;
+      --surface: #182238;
+      --ink: #e8edf6;
+      --muted: #9aa8c2;
+      --accent: #7aa2ff;
+      --line: #2b3852;
+    }
+
+    /* ---------- 2. Base ---------- */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      line-height: 1.6;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 1.25rem; }
+    a { color: var(--accent); }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    h1, h2 { font-family: var(--font-head); line-height: 1.15; }
+
+    /* ---------- 3. Header ---------- */
+    header { border-bottom: 1px solid var(--line); }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; }
+    nav ul { display: flex; gap: 1.25rem; list-style: none; margin: 0; padding: 0; }
+    nav a { text-decoration: none; color: var(--ink); }
+    nav a:hover { color: var(--accent); }
+    .logo { font-family: var(--font-head); font-weight: 700; font-size: 1.15rem; }
+
+    /* ---------- 4. Sections ---------- */
+    .hero { padding: 4.5rem 0 3rem; }
+    .hero h1 { font-size: clamp(2.2rem, 7vw, 3.6rem); margin: 0 0 1rem; }
+    .hero p { color: var(--muted); font-size: 1.15rem; max-width: 52ch; }
+    section { padding: 2.5rem 0; }
+    section h2 { font-size: 1.7rem; margin-top: 0; }
+
+    .btn {
+      display: inline-block; padding: .7rem 1.2rem; border-radius: var(--radius);
+      background: var(--accent); color: #fff; text-decoration: none; font-weight: 600;
+      border: 0; cursor: pointer; font: inherit; font-weight: 600;
+    }
+    .btn:hover { filter: brightness(1.1); }
+    .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+
+    /* Project list */
+    .projects { display: grid; gap: 1rem; }
+    .project {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 1.1rem 1.25rem;
+    }
+    .project h3 { margin: 0 0 .25rem; }
+    .project p { margin: 0; color: var(--muted); }
+
+    /* Counter demo (proof that JavaScript works) */
+    .demo { display: flex; align-items: center; gap: 1rem; }
+    #count { font-size: 1.6rem; font-weight: 700; min-width: 2ch; }
+
+    footer { border-top: 1px solid var(--line); padding: 1.5rem 0; color: var(--muted); font-size: .95rem; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .btn { transition: filter .15s ease; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <nav aria-label="Main">
+        <span class="logo">MyProject</span>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#try-it">Try it</a></li>
+        </ul>
+        <button class="btn ghost" id="theme-toggle" type="button" aria-label="Switch light or dark theme">Theme</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="hero">
+      <h1>Hello, this is my first repo.</h1>
+      <p>Replace this text with one sentence about what you are building and who it is for.</p>
+      <p>
+        <a class="btn" href="#projects">See what I made</a>
+        <a class="btn ghost" href="https://github.com/" target="_blank" rel="noopener">View on GitHub</a>
+      </p>
+    </div>
+
+    <section id="about">
+      <h2>About</h2>
+      <p>Write two or three sentences about yourself or the project. Keep it plain and specific.</p>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="projects">
+        <article class="project">
+          <h3>Project one</h3>
+          <p>What it does in one line.</p>
+        </article>
+        <article class="project">
+          <h3>Project two</h3>
+          <p>What it does in one line.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="try-it">
+      <h2>Try it</h2>
+      <div class="demo">
+        <button class="btn" id="add" type="button">Add one</button>
+        <span id="count" aria-live="polite">0</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">© <span id="year"></span> Your Name. Built with plain HTML, CSS and JavaScript.</div>
+  </footer>
+
+  <script>
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Counter demo: delete or replace with your own logic
+    let count = 0;
+    const countEl = document.getElementById("count");
+    document.getElementById("add").addEventListener("click", () => {
+      count += 1;
+      countEl.textContent = count;
+    });
+
+    // Theme toggle (follows the device setting first)
+    const root = document.documentElement;
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (prefersDark) root.setAttribute("data-theme", "dark");
+
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+      const isDark = root.getAttribute("data-theme") === "dark";
+      root.setAttribute("data-theme", isDark ? "light" : "dark");
+    });
+  </script>
+</body>
+</html>
