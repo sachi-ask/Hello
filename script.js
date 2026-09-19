@@ -111,4 +111,68 @@ function renderMissions() {
   MISSIONS.forEach((mission, i) => {
     const isDone = done.includes(i);
     const li = document.createElement("li");
-    li.
+    li.className = "mission" + (isDone ? " done" : "") + (i === nextIndex ? " next" : "");
+
+    const node = document.createElement("button");
+    node.className = "node";
+    node.type = "button";
+    node.textContent = isDone ? "✓" : i + 1;
+    node.setAttribute("aria-pressed", isDone);
+    node.setAttribute("aria-label", "Mission " + (i + 1) + ": " + mission.title + (isDone ? ", done" : ", not done"));
+    node.addEventListener("click", () => toggle(i));
+
+    const details = document.createElement("details");
+    if (i === nextIndex) details.open = true;
+    const summary = document.createElement("summary");
+    summary.textContent = mission.title;
+    const steps = document.createElement("ol");
+    mission.steps.forEach((s) => {
+      const step = document.createElement("li");
+      step.textContent = s;
+      steps.appendChild(step);
+    });
+    details.append(summary, steps);
+
+    li.append(node, details);
+    list.appendChild(li);
+  });
+
+  updateProgress();
+}
+
+function toggle(i) {
+  done = done.includes(i) ? done.filter((n) => n !== i) : [...done, i];
+  saveDone(done);
+  renderMissions();
+}
+
+function updateProgress() {
+  const total = MISSIONS.length;
+  const count = done.length;
+  document.getElementById("progress-fill").style.width = (count / total) * 100 + "%";
+  document.getElementById("progress").setAttribute("aria-valuenow", count);
+  document.getElementById("progress-text").textContent =
+    count === total ? "All " + total + " done. You know GitHub basics." : count + " of " + total + " done";
+}
+
+function renderEntries() {
+  const list = document.getElementById("entries");
+  if (typeof ENTRIES === "undefined" || ENTRIES.length === 0) {
+    list.innerHTML = "<li><span></span><span>No entries yet. Add one in entries.js.</span></li>";
+    return;
+  }
+  ENTRIES.forEach((entry) => {
+    const li = document.createElement("li");
+    const time = document.createElement("time");
+    time.textContent = entry.date;
+    time.setAttribute("datetime", entry.date);
+    const note = document.createElement("span");
+    note.textContent = entry.note;
+    li.append(time, note);
+    list.appendChild(li);
+  });
+}
+
+renderMissions();
+renderEntries();
+    
