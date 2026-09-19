@@ -3,5 +3,6 @@
 // Keep the commas and quotes exactly like the example.
 
 const ENTRIES = [
+  { date: "2026-09-19", note: "Replaced my starter page and learned to commit." },
   { date: "2026-09-19", note: "Created my first repo and put a page online." },
 ];
